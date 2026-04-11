@@ -7,7 +7,7 @@
     <Tag>latest</Tag>
     <TagDescription>Latest upstream Dozzle with healthcheck (rebuilt weekly)</TagDescription>
   </Branch>
-  <Network>proxynet</Network>
+  <Network>bridge</Network>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
   <Support>https://github.com/ProphetSe7en/dozzle</Support>
