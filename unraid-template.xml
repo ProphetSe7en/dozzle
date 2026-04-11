@@ -8,11 +8,9 @@
     <TagDescription>Latest upstream Dozzle with healthcheck (rebuilt weekly)</TagDescription>
   </Branch>
   <Network>bridge</Network>
-  <Shell>sh</Shell>
-  <Privileged>false</Privileged>
   <Support>https://github.com/ProphetSe7en/dozzle</Support>
   <Project>https://github.com/amir20/dozzle</Project>
-  <Overview>Dozzle is a real-time log viewer for Docker containers. This is a thin wrapper over the official image that adds a Docker HEALTHCHECK (built-in healthcheck does not work with Unraid's --health-cmd).</Overview>
+  <Overview>Dozzle is a real-time log viewer for Docker containers. This is a thin wrapper over the official amir20/dozzle image that adds a Docker HEALTHCHECK (upstream's built-in health endpoint does not work with Unraid's --health-cmd). Rebuilt weekly to track upstream :latest.&#13;&#10;&#13;&#10;As of v6+, authentication is optional but recommended if exposed beyond your LAN. Create /data/users.yml to enable simple auth — see https://github.com/amir20/dozzle/issues/2630</Overview>
   <Category>Tools:Utilities</Category>
   <WebUI>http://[IP]:[PORT:8080]/</WebUI>
   <Icon>https://raw.githubusercontent.com/selfhosters/unRAID-CA-templates/master/templates/img/dozzle.png</Icon>
@@ -22,9 +20,12 @@
   <DonateText/>
   <DonateLink/>
   <Requires/>
-  <Config Name="WebUI" Target="8080" Default="8080" Mode="tcp" Description="Dozzle web interface port" Type="Port" Display="always" Required="false" Mask="false">8080</Config>
-  <Config Name="Docker Host" Target="DOCKER_HOST" Default="/var/run/docker.sock" Mode="" Description="Docker socket path or TCP proxy address (e.g. tcp://dockerproxy:2375)" Type="Variable" Display="always" Required="true" Mask="false">/var/run/docker.sock</Config>
-  <Config Name="Base URL" Target="DOZZLE_BASE" Default="/" Mode="" Description="Base URL path for reverse proxy setups" Type="Variable" Display="always" Required="false" Mask="false">/</Config>
-  <Config Name="Log Level" Target="DOZZLE_LEVEL" Default="info" Mode="" Description="Logging level (debug, info, warn, error)" Type="Variable" Display="always" Required="false" Mask="false">info</Config>
-  <Config Name="Disable Analytics" Target="DOZZLE_NO_ANALYTICS" Default="true" Mode="" Description="Disable anonymous usage analytics" Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="WebUI" Target="8080" Default="8080" Mode="tcp" Description="Web UI port" Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+  <Config Name="Docker Socket" Target="/var/run/docker.sock" Default="/var/run/docker.sock" Mode="ro" Description="Docker socket — required for Dozzle to read container logs" Type="Path" Display="always" Required="true" Mask="false">/var/run/docker.sock</Config>
+  <Config Name="Data" Target="/data" Default="/mnt/user/appdata/dozzle" Mode="rw" Description="Persistent data directory. Holds users.yml for authentication and any session state. Optional if you do not enable auth." Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/dozzle</Config>
+  <Config Name="Base URL" Target="DOZZLE_BASE" Default="/" Mode="" Description="Base URL path for reverse proxy setups (e.g. /dozzle)" Type="Variable" Display="always" Required="false" Mask="false">/</Config>
+  <Config Name="Log Level" Target="DOZZLE_LEVEL" Default="info" Mode="" Description="Log level for Dozzle itself: debug, info, warn, error" Type="Variable" Display="always" Required="false" Mask="false">info</Config>
+  <Config Name="Log Tailsize" Target="DOZZLE_TAILSIZE" Default="300" Mode="" Description="Number of log lines to tail initially when opening a container" Type="Variable" Display="always" Required="false" Mask="false">300</Config>
+  <Config Name="Auth Provider" Target="DOZZLE_AUTH_PROVIDER" Default="none" Mode="" Description="Authentication provider: none (no auth), simple (users.yml), forward-proxy. See Dozzle docs for details." Type="Variable" Display="advanced" Required="false" Mask="false">none</Config>
+  <Config Name="Disable Analytics" Target="DOZZLE_NO_ANALYTICS" Default="true" Mode="" Description="Disable anonymous usage analytics sent by Dozzle" Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
 </Container>
