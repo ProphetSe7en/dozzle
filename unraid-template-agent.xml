@@ -10,7 +10,7 @@
   <Network>bridge</Network>
   <Support>https://github.com/ProphetSe7en/dozzle</Support>
   <Project>https://github.com/amir20/dozzle</Project>
-  <Overview>Dozzle Agent. Install this on a remote host so your main Dozzle UI can show its containers too. One main Dozzle, as many agents as you have hosts.&#13;&#10;&#13;&#10;Set Dozzle Hostname to whatever name you want this host to show up as in the main UI. On first start the agent generates a security key in /data and prints a fingerprint to its log. Copy that fingerprint into your main Dozzle so it knows this agent is trusted.&#13;&#10;&#13;&#10;If this is the only host, you do not need an agent. Just use the regular Dozzle template.</Overview>
+  <Overview>Dozzle Agent. Install this on a remote host so your main Dozzle UI can show its containers too. One main Dozzle, as many agents as you have hosts.&#13;&#10;&#13;&#10;Out of the box the agent uses a self-signed certificate to talk to your main Dozzle. That works fine on a private network. If the agent is reachable from the internet you should mount your own certificate instead; see https://dozzle.dev/guide/agent for the steps.&#13;&#10;&#13;&#10;Optional: set Dozzle Hostname to give this host a friendly name in the main UI (otherwise it shows the Docker engine ID).&#13;&#10;&#13;&#10;If this is the only host, you do not need an agent. Just use the regular Dozzle template.</Overview>
   <Category>Tools:Utilities</Category>
   <Icon>https://raw.githubusercontent.com/selfhosters/unRAID-CA-templates/master/templates/img/dozzle.png</Icon>
   <ExtraParams/>
@@ -21,8 +21,8 @@
   <Requires/>
   <Config Name="Agent Port" Target="7007" Default="7007" Mode="tcp" Description="Port the agent listens on. Your main Dozzle connects to this port. Change the host side if 7007 is already taken." Type="Port" Display="always" Required="true" Mask="false">7007</Config>
   <Config Name="Docker Socket" Target="/var/run/docker.sock" Default="/var/run/docker.sock" Mode="ro" Description="The agent reads container logs from here and sends them to the main Dozzle." Type="Path" Display="always" Required="true" Mask="false">/var/run/docker.sock</Config>
-  <Config Name="Data" Target="/data" Default="/mnt/user/appdata/dozzle-agent" Mode="rw" Description="Where the agent stores its security key. Keep this around so the agent has the same identity after a restart and your main Dozzle does not have to re-add it." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/dozzle-agent</Config>
-  <Config Name="Dozzle Hostname" Target="DOZZLE_HOSTNAME" Default="" Mode="" Description="Name this host shows up as in the main Dozzle UI. Anything that helps you tell hosts apart, like unraid-node-2." Type="Variable" Display="always" Required="true" Mask="false"/>
+  <Config Name="Dozzle Hostname" Target="DOZZLE_HOSTNAME" Default="" Mode="" Description="Optional. Name this host shows up as in the main Dozzle UI. Anything that helps you tell hosts apart, like unraid-node-2. Leave blank to use the Docker engine ID." Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="Container Filter" Target="DOZZLE_FILTER" Default="" Mode="" Description="Optional. Limit the agent to containers matching a Docker filter, e.g. label=color or name=web. Leave blank to show everything." Type="Variable" Display="advanced" Required="false" Mask="false"/>
   <Config Name="Log Level" Target="DOZZLE_LEVEL" Default="info" Mode="" Description="Log level for the agent itself: debug, info, warn, error." Type="Variable" Display="advanced" Required="false" Mask="false">info</Config>
   <Config Name="Disable Analytics" Target="DOZZLE_NO_ANALYTICS" Default="true" Mode="" Description="Disable anonymous usage analytics sent by Dozzle." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
 </Container>

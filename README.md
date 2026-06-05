@@ -12,6 +12,8 @@ Rebuilt every Monday so it stays current with upstream.
 
 Dozzle has a built-in healthcheck command, but it does not work with Unraid's healthcheck settings out of the box. This wrapper sets it up for you so the container shows as healthy in Unraid (and other tools that read Docker's healthcheck).
 
+The same healthcheck works for both server and agent mode. Dozzle's own `/dozzle healthcheck` command picks the right check for whichever mode the container is running in (HTTP probe in server mode, Docker connectivity check in agent mode).
+
 ## Use as the main UI
 
 ```yaml
@@ -40,17 +42,17 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DOZZLE_HOSTNAME=my-remote-host
+      - DOZZLE_HOSTNAME=my-remote-host    # optional, friendly name in the main UI
 ```
 
-The healthcheck figures out which mode you are in and checks the right port. Nothing extra to set.
+By default the agent uses a self-signed certificate. That is fine on a private network. If the agent will be reachable from the internet, mount your own certificate as described in the [Dozzle agent docs](https://dozzle.dev/guide/agent).
 
 ## Unraid
 
 Two templates in this repo:
 
 - `unraid-template.xml` for the main UI.
-- `unraid-template-agent.xml` for a remote agent. Pre-filled so installing it from Community Applications is one click. Set Dozzle Hostname before you start it.
+- `unraid-template-agent.xml` for a remote agent. Pre-filled so installing it from Community Applications is one click.
 
 ## Credits
 
